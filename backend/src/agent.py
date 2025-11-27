@@ -1,6 +1,6 @@
 # ======================================================
 # 🌿 DAILY WELLNESS VOICE COMPANION
-# 👨‍⚕️ Tutorial by Dr. Abhishek: https://www.youtube.com/@drabhishek.5460/videos
+# 👨‍💻 Tutorial by Ayush Raj
 # 💼 Professional Voice AI Development Course
 # 🚀 Context-Aware Agents & JSON Persistence
 # ======================================================
@@ -14,8 +14,7 @@ from typing import Annotated, Literal, List, Optional
 from dataclasses import dataclass, field, asdict
 
 print("\n" + "🌿" * 50)
-print("🚀 WELLNESS COMPANION - TUTORIAL BY DR. ABHISHEK")
-print("📚 SUBSCRIBE: https://www.youtube.com/@drabhishek.5460/videos")
+print("🚀 WELLNESS COMPANION - TUTORIAL BY AYUSH RAJ")
 print("💡 agent.py LOADED SUCCESSFULLY!")
 print("🌿" * 50 + "\n")
 
@@ -191,10 +190,10 @@ class WellnessAgent(Agent):
             
             🎯 **GOALS FOR THIS SESSION:**
             1. **Check-in:** Ask how they are feeling (Mood) and their energy levels.
-               - *Reference the history context if available (e.g., "Last time you were tired, how is today?").*
+                - *Reference the history context if available (e.g., "Last time you were tired, how is today?").*
             2. **Intentions:** Ask for 1-3 simple objectives for the day.
             3. **Support:** Offer small, grounded, NON-MEDICAL advice.
-               - Example: "Try a 5-minute walk" or "Break that big task into small steps."
+                - Example: "Try a 5-minute walk" or "Break that big task into small steps."
             4. **Recap & Save:** Summarize their mood and goals, then call 'complete_checkin'.
 
             🚫 **SAFETY GUARDRAILS:**
@@ -223,7 +222,7 @@ async def entrypoint(ctx: JobContext):
 
     print("\n" + "🌿" * 25)
     print("🚀 STARTING WELLNESS SESSION")
-    print("👨‍⚕️ Tutorial by Dr. Abhishek")
+    print("👨‍💻 Tutorial by Ayush Raj")
     
     # 1. Load History from JSON
     history = load_history()
@@ -252,7 +251,7 @@ async def entrypoint(ctx: JobContext):
         llm=google.LLM(model="gemini-2.5-flash"),
         tts=murf.TTS(
             voice="en-US-natalie", # Using a softer, more caring voice
-            style="Promo",         # Often sounds more enthusiastic/supportive
+            style="Promo",           # Often sounds more enthusiastic/supportive
             text_pacing=True,
         ),
         turn_detection=MultilingualModel(),
