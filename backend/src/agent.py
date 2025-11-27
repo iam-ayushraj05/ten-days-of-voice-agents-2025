@@ -1,6 +1,6 @@
 # ======================================================
 # 🧠 DAY 4: TEACH-THE-TUTOR (BIOLOGY EDITION)
-# 👨‍⚕️ Tutorial by Dr. Abhishek
+# 👨‍💻 Tutorial by Ayush Raj
 # 🚀 Features: DNA, Cells, Nucleus & Active Recall
 # ======================================================
 
@@ -13,7 +13,6 @@ from dataclasses import dataclass
 
 print("\n" + "🧬" * 50)
 print("🚀 BIOLOGY TUTOR - DAY 4 TUTORIAL")
-print("📚 SUBSCRIBE: https://www.youtube.com/@drabhishek.5460/videos")
 print("💡 agent.py LOADED SUCCESSFULLY!")
 print("🧬" * 50 + "\n")
 
@@ -43,39 +42,39 @@ load_dotenv(".env.local")
 # ======================================================
 
 # 🆕 Renamed file so it generates fresh data for you
-CONTENT_FILE = "biology_content.json" 
+CONTENT_FILE = "biology_content.json"
 
 # 🧬 NEW BIOLOGY QUESTIONS
 DEFAULT_CONTENT = [
-  {
-    "id": "dna",
-    "title": "DNA",
-    "summary": "DNA (Deoxyribonucleic acid) is the molecule that carries genetic instructions for the development and functioning of all known living organisms. It is shaped like a double helix.",
-    "sample_question": "What is the full form of DNA and what is its structure called?"
-  },
-  {
-    "id": "cell",
-    "title": "The Cell",
-    "summary": "The cell is the basic structural, functional, and biological unit of all known organisms. It is often called the 'building block of life'. Organisms can be single-celled or multicellular.",
-    "sample_question": "What is the main difference between a Prokaryotic cell and a Eukaryotic cell?"
-  },
-  {
-    "id": "nucleus",
-    "title": "Nucleus",
-    "summary": "The nucleus is a membrane-bound organelle found in eukaryotic cells. It contains the cell's chromosomes (DNA) and controls the cell's growth and reproduction.",
-    "sample_question": "Why is the nucleus often referred to as the 'brain' or 'control center' of the cell?"
-  },
-  {
-    "id": "cell_cycle",
-    "title": "Cell Cycle",
-    "summary": "The cell cycle is a series of events that takes place in a cell as it grows and divides. It consists of Interphase (growth) and the Mitotic phase (division).",
-    "sample_question": "In which phase of the cell cycle does the cell spend the most time?"
-  }
+    {
+        "id": "dna",
+        "title": "DNA",
+        "summary": "DNA (Deoxyribonucleic acid) is the molecule that carries genetic instructions for the development and functioning of all known living organisms. It is shaped like a double helix.",
+        "sample_question": "What is the full form of DNA and what is its structure called?"
+    },
+    {
+        "id": "cell",
+        "title": "The Cell",
+        "summary": "The cell is the basic structural, functional, and biological unit of all known organisms. It is often called the 'building block of life'. Organisms can be single-celled or multicellular.",
+        "sample_question": "What is the main difference between a Prokaryotic cell and a Eukaryotic cell?"
+    },
+    {
+        "id": "nucleus",
+        "title": "Nucleus",
+        "summary": "The nucleus is a membrane-bound organelle found in eukaryotic cells. It contains the cell's chromosomes (DNA) and controls the cell's growth and reproduction.",
+        "sample_question": "Why is the nucleus often referred to as the 'brain' or 'control center' of the cell?"
+    },
+    {
+        "id": "cell_cycle",
+        "title": "Cell Cycle",
+        "summary": "The cell cycle is a series of events that takes place in a cell as it grows and divides. It consists of Interphase (growth) and the Mitotic phase (division).",
+        "sample_question": "In which phase of the cell cycle does the cell spend the most time?"
+    }
 ]
 
 def load_content():
     """
-    📖 Checks if biology JSON exists. 
+    📖 Checks if biology JSON exists.
     If NO: Generates it from DEFAULT_CONTENT.
     If YES: Loads it.
     """
@@ -124,7 +123,7 @@ class TutorState:
 @dataclass
 class Userdata:
     tutor_state: TutorState
-    agent_session: Optional[AgentSession] = None 
+    agent_session: Optional[AgentSession] = None
 
 # ======================================================
 # 🛠️ TUTOR TOOLS
@@ -132,7 +131,7 @@ class Userdata:
 
 @function_tool
 async def select_topic(
-    ctx: RunContext[Userdata], 
+    ctx: RunContext[Userdata],
     topic_id: Annotated[str, Field(description="The ID of the topic to study (e.g., 'dna', 'cell', 'nucleus')")]
 ) -> str:
     """📚 Selects a topic to study from the available list."""
@@ -147,7 +146,7 @@ async def select_topic(
 
 @function_tool
 async def set_learning_mode(
-    ctx: RunContext[Userdata], 
+    ctx: RunContext[Userdata],
     mode: Annotated[str, Field(description="The mode to switch to: 'learn', 'quiz', or 'teach_back'")]
 ) -> str:
     """🔄 Switches the interaction mode and updates the agent's voice/persona."""
@@ -157,7 +156,7 @@ async def set_learning_mode(
     state.mode = mode.lower()
     
     # 2. Switch Voice based on Mode
-    agent_session = ctx.userdata.agent_session 
+    agent_session = ctx.userdata.agent_session
     
     if agent_session:
         if state.mode == "learn":
@@ -241,8 +240,8 @@ async def entrypoint(ctx: JobContext):
         stt=deepgram.STT(model="nova-3"),
         llm=google.LLM(model="gemini-2.5-flash"),
         tts=murf.TTS(
-            voice="en-US-matthew", 
-            style="Promo",        
+            voice="en-US-matthew",
+            style="Promo",
             text_pacing=True,
         ),
         turn_detection=MultilingualModel(),
