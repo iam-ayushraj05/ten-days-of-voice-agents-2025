@@ -1,6 +1,6 @@
 # ======================================================
 # 💼 DAY 5: AI SALES DEVELOPMENT REP (SDR)
-# 👨‍⚕️ "Dr. Abhishek Store" - Auto-Lead Capture Agent
+# 👨‍💻 "Ayush Raj Store" - Auto-Lead Capture Agent
 # 🚀 Features: FAQ Retrieval, Lead Qualification, JSON Database
 # ======================================================
 
@@ -14,7 +14,7 @@ from dataclasses import dataclass, asdict
 
 print("\n" + "💼" * 50)
 print("🚀 AI SDR AGENT - DAY 5 TUTORIAL")
-print("📚 SELLING: Dr. Abhishek's Cloud & AI Courses")
+print("📚 SELLING: Ayush Raj's Cloud & AI Courses")
 print("💡 agent.py LOADED SUCCESSFULLY!")
 print("💼" * 50 + "\n")
 
@@ -46,7 +46,7 @@ load_dotenv(".env.local")
 FAQ_FILE = "store_faq.json"
 LEADS_FILE = "leads_db.json"
 
-# Default FAQ data for "Dr. Abhishek Store"
+# Default FAQ data for "Ayush Raj Store"
 DEFAULT_FAQ = [
     {
         "question": "What do you sell?",
@@ -58,7 +58,7 @@ DEFAULT_FAQ = [
     },
     {
         "question": "Do you offer free content?",
-        "answer": "Yes! Dr. Abhishek releases weekly tutorials on YouTube for free. The paid courses offer deep-dives, code reviews, and certification."
+        "answer": "Yes! Ayush Raj releases weekly tutorials on YouTube for free. The paid courses offer deep-dives, code reviews, and certification."
     },
     {
         "question": "Do you do corporate consulting?",
@@ -94,7 +94,7 @@ class LeadProfile:
     use_case: str | None = None
     team_size: str | None = None
     timeline: str | None = None
-   
+    
     def is_qualified(self):
         """Returns True if we have the minimum info (Name + Email + Use Case)"""
         return all([self.name, self.email, self.use_case])
@@ -123,7 +123,7 @@ async def update_lead_profile(
     Only call this when the user explicitly provides information.
     """
     profile = ctx.userdata.lead_profile
-   
+    
     # Update only fields that are provided (not None)
     if name: profile.name = name
     if company: profile.company = company
@@ -132,7 +132,7 @@ async def update_lead_profile(
     if use_case: profile.use_case = use_case
     if team_size: profile.team_size = team_size
     if timeline: profile.timeline = timeline
-   
+    
     print(f"📝 UPDATING LEAD: {profile}")
     return "Lead profile updated. Continue the conversation."
 
@@ -145,13 +145,13 @@ async def submit_lead_and_end(
     Call this when the user says goodbye or 'that's all'.
     """
     profile = ctx.userdata.lead_profile
-   
+    
     # Save to JSON file (Append mode)
     db_path = os.path.join(os.path.dirname(__file__), LEADS_FILE)
-   
+    
     entry = asdict(profile)
     entry["timestamp"] = datetime.now().isoformat()
-   
+    
     # Read existing, append, write back (Simple JSON DB)
     existing_data = []
     if os.path.exists(db_path):
@@ -159,12 +159,12 @@ async def submit_lead_and_end(
             with open(db_path, "r") as f:
                 existing_data = json.load(f)
         except: pass
-   
+    
     existing_data.append(entry)
-   
+    
     with open(db_path, "w") as f:
         json.dump(existing_data, f, indent=4)
-       
+        
     print(f"✅ LEAD SAVED TO {LEADS_FILE}")
     return f"Lead saved. Summarize the call for the user: 'Thanks {profile.name}, I have your info regarding {profile.use_case}. We will email you at {profile.email}. Goodbye!'"
 
@@ -176,28 +176,28 @@ class SDRAgent(Agent):
     def __init__(self):
         super().__init__(
             instructions=f"""
-            You are 'Sarah', a friendly and professional Sales Development Rep (SDR) for 'Dr. Abhishek Store'.
-           
+            You are 'Sarah', a friendly and professional Sales Development Rep (SDR) for 'Ayush Raj Store'.
+            
             📘 **YOUR KNOWLEDGE BASE (FAQ):**
             {STORE_FAQ_TEXT}
-           
+            
             🎯 **YOUR GOAL:**
             1. Answer questions about our Cloud/AI courses and consulting using the FAQ.
             2. **QUALIFY THE LEAD:** Naturally ask for the following details during the chat:
-               - Name
-               - Company / Role
-               - Email
-               - What are they trying to build? (Use Case)
-               - Timeline (When do they need it?)
-           
+                - Name
+                - Company / Role
+                - Email
+                - What are they trying to build? (Use Case)
+                - Timeline (When do they need it?)
+            
             ⚙️ **BEHAVIOR:**
             - **Be Conversational:** Don't interrogate the user. Answer a question, THEN ask for a detail.
             - *Example:* "Our Voice AI course is $499. It's great for teams. By the way, how large is your dev team?"
             - **Capture Data:** Use `update_lead_profile` immediately when you hear new info.
             - **Closing:** When the user is done, use `submit_lead_and_end`.
-           
+            
             🚫 **RESTRICTIONS:**
-            - If you don't know an answer, say "I'll check with Dr. Abhishek and email you." (Don't hallucinate prices).
+            - If you don't know an answer, say "I'll check with Ayush Raj and email you." (Don't hallucinate prices).
             """,
             tools=[update_lead_profile, submit_lead_and_end],
         )
@@ -214,7 +214,7 @@ async def entrypoint(ctx: JobContext):
 
     print("\n" + "💼" * 25)
     print("🚀 STARTING SDR SESSION")
-   
+    
     # 1. Initialize State
     userdata = Userdata(lead_profile=LeadProfile())
 
@@ -224,14 +224,14 @@ async def entrypoint(ctx: JobContext):
         llm=google.LLM(model="gemini-2.5-flash"),
         tts=murf.TTS(
             voice="en-US-natalie", # Professional, warm female voice
-            style="Promo",        
+            style="Promo",
             text_pacing=True,
         ),
         turn_detection=MultilingualModel(),
         vad=ctx.proc.userdata["vad"],
         userdata=userdata,
     )
-   
+    
     # 3. Start
     await session.start(
         agent=SDRAgent(),
