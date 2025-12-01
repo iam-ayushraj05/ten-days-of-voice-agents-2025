@@ -1,14 +1,15 @@
 'use client';
 
 import { useRef } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
-import { useRoomContext } from '@livekit/components-react';
+import { AnimatePresence, motion } from 'framer-motion'; // Using framer-motion directly
+import { useRoomContext } from '@livekit/components-react'; // <-- FIX: Import added
 import { useSession } from '@/components/app/session-provider';
 import { SessionView } from '@/components/app/session-view';
 import { WelcomeView } from '@/components/app/welcome-view';
 
-const MotionWelcomeView = motion.create(WelcomeView);
-const MotionSessionView = motion.create(SessionView);
+// FIX: Use motion(Component) syntax instead of motion.custom or motion.create
+const MotionWelcomeView = motion(WelcomeView); 
+const MotionSessionView = motion(SessionView);
 
 const VIEW_MOTION_PROPS = {
   variants: {
@@ -51,6 +52,7 @@ export function ViewController() {
           key="welcome"
           {...VIEW_MOTION_PROPS}
           startButtonText={appConfig.startButtonText}
+          developerName={appConfig.companyName} // Passes developer name
           onStartCall={startSession}
         />
       )}
