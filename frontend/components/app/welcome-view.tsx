@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // <-- FIX: React is defined here
 import { Button } from '@/components/livekit/button';
 
 function WelcomeImage() {
@@ -36,7 +36,7 @@ function RetroTvIcon({ className }: { className?: string }) {
 }
 
 export const WelcomeView = React.forwardRef<HTMLDivElement, any>(
-  ({ startButtonText, onStartCall }, ref) => {
+  ({ startButtonText, onStartCall, developerName }, ref) => {
     const [name, setName] = useState('');
     const [started, setStarted] = useState(false);
 
@@ -52,13 +52,31 @@ export const WelcomeView = React.forwardRef<HTMLDivElement, any>(
         items-center md:items-end md:pr-24 lg:pr-32
         bg-transparent text-white"
       >
+        {/* === Large Centered Text Block (Matches Image Style) === */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                        md:left-0 md:translate-x-0 md:top-[unset] md:bottom-24 
+                        text-left font-extrabold p-8 pointer-events-none select-none">
+            
+            <h1 className="text-7xl sm:text-8xl lg:text-[10rem] leading-none text-white/90 drop-shadow-2xl">
+                Voice Improv
+            </h1>
+            <h1 className="text-7xl sm:text-8xl lg:text-[10rem] leading-none text-white/90 drop-shadow-2xl opacity-70">
+                Battle
+            </h1>
+
+            {/* Subtitle/Credit */}
+            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-semibold mt-4 text-white/70 tracking-wide drop-shadow-lg">
+                By {developerName}
+            </h2>
+        </div>
+        {/* ================================== */}
+
         {!started && (
           <section className="relative flex flex-col items-center text-center p-8 
           bg-[#1a1a1a] rounded-3xl overflow-hidden
-          /* UPDATED SHADOW: Added outer purple glow + deep inner shadows */
           shadow-[0_0_50px_rgba(124,58,237,0.4),12px_12px_24px_#0d0d0d,-12px_-12px_24px_#272727]
           border border-white/10
-          w-full max-w-sm mx-4 md:mx-0">
+          w-full max-w-sm mx-4 md:mx-0 z-20">
             
             {/* === DECORATIVE ICONS & EMOJIS === */}
             <RetroTvIcon className="absolute top-4 right-4 w-10 h-10 text-cyan-400 -rotate-12 pointer-events-none drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] opacity-90" />
